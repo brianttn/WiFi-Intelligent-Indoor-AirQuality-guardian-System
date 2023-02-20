@@ -2,61 +2,98 @@
 
 ## Table of contents
 
-- [About the Project](#about-the-project)
+- [About this Project](#about-this-project)
+- [Mini host](#mini-host)
 - [Air Quality Detection Module](#air-quality-detection-module)
 - [Switch valves](#switch-valves)
 - [Air purifier](#air-purifier)
 - [Ventilator](#ventilator)
-- [Mini host](#mini-host)
 
-## About the project
+## About this project
 
 The WiFi intelligent indoor air quality guardian system can perform indoor air circulation purification, sterilization, air renewal, and emergency exhaust.
 
 The system consists of the following main components：
 
+- Mini host
 - Air Quality Detection Module
 - Switch valves
 - Air purifier
 - Ventilator
-- Mini host
 
 ![systemDiagram](systemDiagram.png)
 
+## Mini host
+
+The Mini host is the control center of this system, it dominates the other 4 components as follows：
+
+- Air Quality Detection Module
+- Switch valves
+- Air purifier
+- Ventilator
+
+Tasks that mini host is responsible for：
+
+- Graphical User Interface：
+  - System parameters setting
+  - Scheduling
+  - Data presentation
+- Central Control System：
+  - Execute the control logic set by the system and the user.
+  - Send commands and perform corresponding actions based on the obtained air quality data.
+- Server and database system：
+  - Provide web application routing and https requests processing.
+  - Manipulate and store various data.
+- WiFi connection and MQTT communication.
+
 ## Air Quality Detection Module
 
-Air Quality Detection Module is mainly responsible for：
+Implementation items and responsible tasks：
 
+- UART communication protocol for Sensors.
 - Detect various harmful gases.
-- Record data and send data to the Mini host.
-- Warns of bad air quality.
-- WiFi connection and MQTT communication.
+- Alarm generation and release.
+- WiFi connection.
+- MQTT communication：
+  - Send air quality data to mini host.
+  - Receive commands from mini host.
 
 ## Switch valves
 
-Switch valves are mainly responsible for：
+Implementation items and responsible tasks：
 
+- PWM control of motor.
+- Position and steering detection.
+- Braking to prevent collisions, loose components.
+- Abnormal detection such as overcurrent and idling.
 - Execute the task of switching air ducts in various indoor spaces.
-- WiFi connection and MQTT communication.
+- WiFi connection.
+- MQTT communication：
+  - Send steering position and abnormal information to mini host.
+  - Receive steering commands from mini host.
 
 ## Air purifier
 
-Air purifier is mainly responsible for：
+Implementation items and responsible tasks：
 
+- Use Flash as EEPROM to store：
+  - Air cleaning module parameters.
+  - Fan motor drive board parameters.
+  - RF remote control parameters.
+- UART communication protocol of the motor drive board.
+- Abnormal detection of fan motor and air purification module.
+- Error code compilation of motor driver board and air purification module.
 - Filter and purify harmful substances in the air.
-- WiFi connection and MQTT communication.
+- Standby power saving function.
+- WiFi connection.
+- MQTT communication：
+  - Send the operating parameters and abnormal information of the fan motor and air purification module to the mini host.
+  - Receive the motor gear speed and air purification module parameter commands from the Mini host.
 
 ## Ventilator
 
-Ventilator is mainly responsible for：
+Implementation items and responsible tasks：
 
+- The function is similar to air purifier, without the air purification module
 - Accelerate the renewal of indoor air.
-- WiFi connection and MQTT communication.
 
-## Mini host
-
-Mini host is mainly responsible for：
-
-- Perform corresponding commands and actions based on the obtained air quality data.
-- Store various data.
-- WiFi connection and MQTT communication.
